@@ -1,9 +1,5 @@
 
 
-
-
-
-
 // let checkWord = require('check-word');
 // let words = checkWord('en');
 
@@ -16,7 +12,6 @@ let globalWord = [];
 let squares = [];
 let score = 0;
 let NumberToSquare = [];
-let lastSquare = null;
 
 //Dependencies: script: boardLogic.js
 //      usage: generateLetters() returns 2d array of random letters
@@ -37,7 +32,8 @@ function turnsRed(e) {
 
 function clearGame() {
     let scoreStatus = document.getElementById('score');
-    scoreStatus.textContent = 0;
+    score = 0;
+    scoreStatus.textContent = score;
 
     //remove all child elements from ul tag
     // https://www.geeksforgeeks.org/remove-all-the-child-elements-of-a-dom-node-in-javascript/#:~:text=Remove%20all%20the%20child%20elements%20of%20a%20DOM%20node%20in,which%20produces%20the%20same%20output.
@@ -47,7 +43,7 @@ function clearGame() {
         parent.removeChild(child);
         child = parent.firstElementChild;
     }
-    lastSquare = null;
+
     NumberToSquare = [];
     clearBoard();
 }
@@ -56,7 +52,8 @@ function clearGame() {
 
 function clearBoard() {
     globalWord = [];
-    lastSquare = null;
+    globalWordSquares = [];
+
     for (let i = 0; i < squares.length; i++) {
         squares[i].style.backgroundColor = 'lightblue';
     }
@@ -76,34 +73,34 @@ function printBoard() {
     }
 }
 
-// function allAdjacent() {
-   
-//     let squareNumber, connects, edges;
-//     for (let i = 0; i < globalWordSquares.length; i++) {
-//         connects = false;
-//         squareNumber = NumberToSquare.indexOf(globalWordSquares[i]);
-//         console.log(squareNumber);
-//         edges = graph.list.get(squareNumber);
-//         console.log(graph.list.get(squareNumber));
-//         for (let j = i + 1; j < globalWordSquares.length; j++) {
-//             for (let k = 0; k < edges.length; k++) {
-//                 if (globalWordSquares[j] === edges[k]) {
-//                     connects = true;
-//                 }
-//             }
-//         }
-//         if (!connects) {
-//             return false;
-//         }
-//     }
-//     return true;
-// }
+function allAdjacent() {
+
+    let squareNumber, connects, edges;
+    for (let i = 0; i < globalWordSquares.length; i++) {
+        connects = false;
+        squareNumber = NumberToSquare.indexOf(globalWordSquares[i]);
+        console.log(squareNumber);
+        edges = graph.list.get(squareNumber);
+        console.log(graph.list.get(squareNumber));
+        for (let j = i + 1; j < globalWordSquares.length; j++) {
+            for (let k = 0; k < edges.length; k++) {
+                if (globalWordSquares[j] === edges[k]) {
+                    connects = true;
+                }
+            }
+        }
+        if (!connects) {
+            return false;
+        }
+    }
+    return true;
+}
 
 function clickSquares() {
     for (let i = 0; i < squares.length; i++) {
         console.log(squares[i]);
         squares[i].addEventListener('click', function (e) {
-            // if (lastSquare == null || isAdjacent(squares[i], lastSquare)) {
+            // if (isAdjacent()) {
             console.log(squares[i]);
 
 
@@ -112,13 +109,16 @@ function clickSquares() {
             if (turnsRed(e)) {
                 globalWord.push(squares[i].textContent);
                 globalWordSquares.push(squares[i]);
-                lastSquare = squares[i];
             }
             else {
+                console.log('delete letter');
                 //implement error checking, perhaps
                 let index = globalWordSquares.indexOf(squares[i]);
                 globalWordSquares.splice(index, 1);
                 globalWord.splice(index, 1);
+                console.log('index:' + String(index));
+                console.log(globalWord);
+                console.log(globalWordSquares);
             }
 
         });
@@ -163,25 +163,27 @@ function addWord(e) {
     if (strWord.length <= 2) {
         //output too short
         alert("Too short!");
+        clearBoard();
         return;
     }
     else if (alreadyFound(strWord)) {
         alert("already found!");
+        clearBoard();
         return;
     }
 
-   
-        let node = document.createElement("li");
-        node.id = strWord;
-        node.role = "option";
-        let textNode = document.createTextNode(strWord);
-        node.appendChild(textNode);
-        document.querySelector('ul').appendChild(node);
-        score = score + strWord.length - 2;
-        let scoreStatus = document.getElementById('score');
-        scoreStatus.textContent = score;
-        globalWords.push(strWord);
-    
+
+    let node = document.createElement("li");
+    node.id = strWord;
+    node.role = "option";
+    let textNode = document.createTextNode(strWord);
+    node.appendChild(textNode);
+    document.querySelector('ul').appendChild(node);
+    score = score + strWord.length - 2;
+    let scoreStatus = document.getElementById('score');
+    scoreStatus.textContent = score;
+    globalWords.push(strWord);
+
 
     console.log(globalWord);
 

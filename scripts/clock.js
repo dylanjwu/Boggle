@@ -1,3 +1,5 @@
+//Code will not work, do NOT run
+
 let d = new Date();
 let startMin = d.getMinutes();
     let startSec = d.getSeconds();
@@ -6,23 +8,13 @@ let startMin = d.getMinutes();
 function myTimer() {
     let d = new Date();
     let secs, mins;
-    secs = d.getSeconds()-startSec;
-    mins = mins = d.getMinutes()-startMin;
-    
-    if(secs === startSec){
-        secs = d.getSeconds();
-    }
-
-    if(mins === startMin){
-        mins = d.getMinutes();
-    }
     
     console.log(secs);
     console.log(mins);
     if(mins == 1){
         return 0;
     }
-    document.getElementById("timer").innerHTML = '0' + mins + ':0' + secs;
+    document.getElementById("timer").innerHTML ='';
     // if(secs === (startS % 60) && mins === Number(startM / 60)) {
     //     // document.getElementById("timer").innerHTML = secs;
     //     alert();
@@ -39,4 +31,4 @@ function startTimer(){
     
 }
 
-startTimer();
+// startTimer();

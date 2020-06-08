@@ -1,3 +1,7 @@
+
+//traversal algorithms included for algorithm to find all words,
+//but not implemented yet
+
 //GRAPH CLASS
 class Graph {
     constructor(vertices) {

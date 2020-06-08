@@ -1,33 +1,37 @@
-
-
-// let checkWord = require('check-word');
-// let words = checkWord('en');
-
-//global vars
-let game = new Game();
-let graph = game.adjList();
-let globalWords = [];
-let globalWordSquares = [];
-let globalWord = [];
-let squares = [];
-let score = 0;
-let NumberToSquare = [];
-
-//Dependencies: script: boardLogic.js
+//Dependencies: scripts: boardLogic.js, graph.js
 //      usage: generateLetters() returns 2d array of random letters
 
 
+// (failed) dictionary API call for checking if word is real    
+// let checkWord = require('check-word');
+// let words = checkWord('en');
 
-//DOM MANIPULATION
+//global vars (updated at initial opening-of-page, termination of game, 
+//and addition of word (respectively))
 
-function turnsRed(e) {
-    //add data change for globalWord when turns from red to blue
-    if (e.target.style.backgroundColor == 'lightblue') {
-        e.target.style.backgroundColor = 'red';
-        return true;
+//initial
+let game = new Game();
+let graph = game.adjList();
+let squares = [];
+let NumberToSquare = [];
+
+//game
+let globalWords = [];
+let score = 0;
+
+//word
+let globalWordSquares = [];
+let globalWord = [];
+
+/* ********** BOARD FUNCTIONS ********** */
+
+function clearBoard() {
+    globalWord = [];
+    globalWordSquares = [];
+
+    for (let i = 0; i < squares.length; i++) {
+        squares[i].style.backgroundColor = 'lightblue';
     }
-    e.target.style.backgroundColor = 'lightblue';
-    return false;
 }
 
 function clearGame() {
@@ -50,15 +54,6 @@ function clearGame() {
 
 
 
-function clearBoard() {
-    globalWord = [];
-    globalWordSquares = [];
-
-    for (let i = 0; i < squares.length; i++) {
-        squares[i].style.backgroundColor = 'lightblue';
-    }
-}
-
 function printBoard() {
     console.log(graph.list);
     let board = generateLetters();
@@ -73,6 +68,28 @@ function printBoard() {
     }
 }
 
+//creates new board, prints, and clears previous data
+function shuffle() {
+    if (globalWords.length > 0) {
+        let yes = confirm("Are you sure you want to end the game?");
+        if (!yes) return;
+    }
+    console.log(globalWords);
+    globalWords = [];
+
+    let board = generateLetters();
+
+    clearGame();
+    printBoard();
+}
+
+/* ********** END OF BOARD FUNCTIONS ********** */
+
+
+
+/* ********** SQUARE FUNCTIONS ********** */
+
+//not called and not functional, TO-DO: implement correctly
 function allAdjacent() {
 
     let squareNumber, connects, edges;
@@ -96,6 +113,17 @@ function allAdjacent() {
     return true;
 }
 
+function turnsRed(e) {
+    //add data change for globalWord when turns from red to blue
+    if (e.target.style.backgroundColor == 'lightblue') {
+        e.target.style.backgroundColor = 'red';
+        return true;
+    }
+    e.target.style.backgroundColor = 'lightblue';
+    return false;
+}
+
+//event for clicking any square
 function clickSquares() {
     for (let i = 0; i < squares.length; i++) {
         console.log(squares[i]);
@@ -125,21 +153,12 @@ function clickSquares() {
     }
 }
 
-function shuffle() {
-    if (globalWords.length > 0) {
-        let yes = confirm("Are you sure you want to end the game?");
-        if (!yes) return;
-    }
-    console.log(globalWords);
-    globalWords = [];
-
-    let board = generateLetters();
-
-    clearGame();
-    printBoard();
-}
+/* ********** END OF SQUARE FUNCTIONS ********** */
 
 
+/* ********** WORD FUNCTIONS ********** */
+
+//returns true if word has already been found
 function alreadyFound(word) {
     console.log("in already found");
     for (let i = 0; i < globalWords.length; i++) {
@@ -153,12 +172,9 @@ function alreadyFound(word) {
     return false;
 }
 
-
+//conditions for adding word, TO-DO: check if strWord is a word
 function addWord(e) {
     let strWord = globalWord.join('').toUpperCase();
-    //TO-DO:
-    //check if strWord is a word and not already found
-    //words.check(strWord) for true
 
     if (strWord.length <= 2) {
         //output too short
@@ -172,7 +188,7 @@ function addWord(e) {
         return;
     }
 
-
+    //modifies html with DOM
     let node = document.createElement("li");
     node.id = strWord;
     node.role = "option";
@@ -190,6 +206,11 @@ function addWord(e) {
     clearBoard();
 }
 
+/* ********** END OF WORD FUNCTIONS ********** */
+
+
+//get squares, invoke event listeners for play/shuffle-button, add-button
+//calls event function clickSquares
 function main() {
     for (let i = 0; i < 16; i++) {
         let str = 'sq' + String(i + 1);
@@ -205,7 +226,8 @@ function main() {
     addBtn.addEventListener('click', addWord);
 }
 
+//call main()
 main();
 
 
-//  videoBox.setAttribute('class', 'showing');
+//(ignore) videoBox.setAttribute('class', 'showing');

@@ -1,14 +1,41 @@
-
-<!-- arbitrary html for running various experiments, not included in boggle.html -->
+arbitrary html for running various experiments, not included in boggle.html
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<html>
+
 <body>
-    
+
+    <p id="myP">
+        Click the text! The mouseDown() function is triggered when the mouse button is pressed down over this paragraph, and sets the color of the text to red. The mouseUp() function is triggered when the mouse button is released, and sets the color of the text
+        to green.
+    </p>
+
+
+
 </body>
+<script>
+    function getAJAX() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '../assets/words.txt', true);
+        let wordList;
+        xhr.onload = function() {
+            if (this.status === 200) {
+                wordList = this.responseText.split('\n');
+                // console.log(wordList);
+                for (let word of wordList) {
+                    if (word === 'fish') {
+                        console.log("contains the word fish");
+
+                    }
+                }
+            }
+        }
+
+        xhr.send();
+
+    }
+    let body = document.querySelector('body');
+    body.addEventListener('click', getAJAX);
+</script>
+
 </html>

@@ -14,6 +14,8 @@ let game = new Game();
 let graph = game.adjList();
 let squares = [];
 let NumberToSquare = [];
+// let allWords = [];
+
 
 //game
 let globalWords = [];
@@ -35,6 +37,7 @@ function clearBoard() {
 }
 
 function clearGame() {
+    updateAddBtnColor('lightblue');
     let scoreStatus = document.getElementById('score');
     score = 0;
     scoreStatus.textContent = score;
@@ -90,55 +93,73 @@ function shuffle() {
 /* ********** SQUARE FUNCTIONS ********** */
 
 //not called and not functional, TO-DO: implement correctly
-function allAdjacent() {
+function isAdjacent() {
 
-    let squareNumber, connects, edges;
-    for (let i = 0; i < globalWordSquares.length; i++) {
-        connects = false;
-        squareNumber = NumberToSquare.indexOf(globalWordSquares[i]);
-        console.log(squareNumber);
+    let squareNumber, edges;
+    let isAdj;
+    // console.log(graph.list.get(squareNumber));
+
+    for (let j = 0; j < globalWordSquares.length; j++) {
+        isAdj = false;
+        currentSquare = globalWordSquares[j];
+        squareNumber = NumberToSquare.indexOf(currentSquare);
         edges = graph.list.get(squareNumber);
-        console.log(graph.list.get(squareNumber));
-        for (let j = i + 1; j < globalWordSquares.length; j++) {
-            for (let k = 0; k < edges.length; k++) {
-                if (globalWordSquares[j] === edges[k]) {
-                    connects = true;
+        console.log(squareNumber)
+        console.log(currentSquare);
+        console.log(edges);
+
+        for (let edge of edges) {
+            for (let i = 0; i < globalWordSquares.length; i++) {
+
+                if (NumberToSquare.indexOf(globalWordSquares[i]) + 1 === edge) {
+                    console.log(NumberToSquare.indexOf(globalWordSquares[i]) + 1);
+                    console.log(edge)
+                    isAdj = true;
+                    break;
+                    console.log(true);
                 }
             }
         }
-        if (!connects) {
+        if (isAdj === false) {
             return false;
         }
     }
-    return true;
+    return true
 }
 
-function turnsRed(e) {
-    //add data change for globalWord when turns from red to blue
+function turnsGreen(e) {
+    //add data change for globalWord when turns from green to blue
     if (e.target.style.backgroundColor == 'lightblue') {
-        e.target.style.backgroundColor = 'red';
+        e.target.style.backgroundColor = 'lightgreen';
         return true;
     }
     e.target.style.backgroundColor = 'lightblue';
     return false;
 }
 
+function updateAddBtnColor(color) {
+    let btn = document.getElementById('add-button');
+    btn.style.backgroundColor = color;
+}
+
 //event for clicking any square
 function clickSquares() {
     for (let i = 0; i < squares.length; i++) {
         console.log(squares[i]);
-        squares[i].addEventListener('click', function (e) {
+        squares[i].addEventListener('mousedown', function(e) {
             // if (isAdjacent()) {
             console.log(squares[i]);
 
 
             //check if adjacent
             // console.log(allAdjacent(squares[i]));
-            if (turnsRed(e)) {
+            // if (globalWord.length > 0 && !isAdjacent()) {
+            //     console.log(isAdjacent(squares[i]))
+            // } else
+            if (turnsGreen(e)) {
                 globalWord.push(squares[i].textContent);
                 globalWordSquares.push(squares[i]);
-            }
-            else {
+            } else {
                 console.log('delete letter');
                 //implement error checking, perhaps
                 let index = globalWordSquares.indexOf(squares[i]);
@@ -148,6 +169,12 @@ function clickSquares() {
                 console.log(globalWord);
                 console.log(globalWordSquares);
             }
+
+            //change style.backgroundColor of addBtn
+            if (globalWord.length > 2) updateAddBtnColor('lightgreen')
+            else updateAddBtnColor('lightblue');
+
+
 
         });
     }
@@ -172,46 +199,75 @@ function alreadyFound(word) {
     return false;
 }
 
+function isWord(possibleWord) {
+    for (let word of allWords) {
+        if (word === possibleWord) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function turnRed() {
+    for (let square of globalWordSquares)
+        square.style.backgroundColor = 'red';
+}
+
+
 //conditions for adding word, TO-DO: check if strWord is a word
 function addWord(e) {
     let strWord = globalWord.join('').toUpperCase();
-
-    if (strWord.length <= 2) {
-        //output too short
-        alert("Too short!");
-        clearBoard();
+    if (strWord.length <= 2 || !isWord(strWord.toLowerCase())) {
+        turnRed();
+        updateAddBtnColor('lightblue');
+        setTimeout(clearBoard, 30);
         return;
-    }
-    else if (alreadyFound(strWord)) {
-        alert("already found!");
+    } else if (alreadyFound(strWord)) {
+        // alert("already found!");
+        updateAddBtnColor('lightblue');
+        let children = document.querySelector('ul').childNodes;
+        console.log(children);
+        for (let child of children) {
+            if (child.textContent === strWord) {
+                child.style.backgroundColor = 'red';
+                // child.style.color = 'red';
+                setTimeout(function() {
+                    child.style.backgroundColor = 'white';
+                    // child.style.color = 'black';
+                }, 30);
+            }
+        }
         clearBoard();
         return;
     }
 
     //modifies html with DOM
     let node = document.createElement("li");
+    let textNode = document.createTextNode(strWord);
+    let scoreStatus = document.getElementById('score');
     node.id = strWord;
     node.role = "option";
-    let textNode = document.createTextNode(strWord);
     node.appendChild(textNode);
     document.querySelector('ul').appendChild(node);
+    node.style.fontFamily = "sans-serif";
     score = score + strWord.length - 2;
-    let scoreStatus = document.getElementById('score');
     scoreStatus.textContent = score;
     globalWords.push(strWord);
-
+    updateAddBtnColor('lightblue');
 
     console.log(globalWord);
 
     clearBoard();
 }
 
-/* ********** END OF WORD FUNCTIONS ********** */
 
+/* ********** END OF WORD FUNCTIONS ********** */
 
 //get squares, invoke event listeners for play/shuffle-button, add-button
 //calls event function clickSquares
 function main() {
+
+    console.log(allWords);
     for (let i = 0; i < 16; i++) {
         let str = 'sq' + String(i + 1);
         let el = document.getElementById(str);
@@ -222,8 +278,20 @@ function main() {
     let addBtn = document.getElementById('add-button');
 
     shuffleBtn.addEventListener('click', shuffle);
+
+    //turn on off with key press(up/down)
+    // document.addEventListener('keydown', e => document.addEventListener('keyup', clickSquares));
+    // document.addEventListener('mousedown', clickSquares);
     clickSquares();
+
+    //2 ways to add word: with button or with return key (13)
+    let body = document.querySelector('body');
+
     addBtn.addEventListener('click', addWord);
+    document.addEventListener('keypress', e => {
+        if (e.keyCode === 13 && globalWord.length > 0) addWord();
+    });
+
 }
 
 //call main()

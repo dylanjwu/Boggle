@@ -93,27 +93,25 @@ function shuffle() {
 /* ********** SQUARE FUNCTIONS ********** */
 
 //not called and not functional, TO-DO: implement correctly
-function isAdjacent() {
+function allAdjacent() {
 
     let squareNumber, edges;
     let isAdj;
     // console.log(graph.list.get(squareNumber));
+    // console.log("globalWordSquares" + globalWordSquares);
+    // console.log("NumberToSquare" + NumberToSquare);
+    // console.log("graph.list: " + graph.list);
 
     for (let j = 0; j < globalWordSquares.length; j++) {
         isAdj = false;
         currentSquare = globalWordSquares[j];
         squareNumber = NumberToSquare.indexOf(currentSquare);
         edges = graph.list.get(squareNumber);
-        console.log(squareNumber)
-        console.log(currentSquare);
-        console.log(edges);
 
         for (let edge of edges) {
             for (let i = 0; i < globalWordSquares.length; i++) {
 
                 if (NumberToSquare.indexOf(globalWordSquares[i]) + 1 === edge) {
-                    console.log(NumberToSquare.indexOf(globalWordSquares[i]) + 1);
-                    console.log(edge)
                     isAdj = true;
                     break;
                     console.log(true);
@@ -147,12 +145,12 @@ function clickSquares() {
     for (let i = 0; i < squares.length; i++) {
         console.log(squares[i]);
         squares[i].addEventListener('mousedown', function(e) {
-            // if (isAdjacent()) {
+
             console.log(squares[i]);
 
 
             //check if adjacent
-            // console.log(allAdjacent(squares[i]));
+            console.log(allAdjacent());
             // if (globalWord.length > 0 && !isAdjacent()) {
             //     console.log(isAdjacent(squares[i]))
             // } else

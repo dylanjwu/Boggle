@@ -70,10 +70,12 @@ function printBoard() {
             k++;
         }
     }
+
 }
 
 //creates new board, prints, and clears previous data
 function shuffle() {
+
     if (globalWords.length > 0) {
         let yes = confirm("Are you sure you want to end the game?");
         if (!yes) return;
@@ -85,6 +87,12 @@ function shuffle() {
 
     clearGame();
     printBoard();
+    // if (intervalId) {
+    //     clearInterval(intervalId);
+    //     startTimer(1);
+    // }
+    // startTimer(1);
+
 }
 
 /* ********** END OF BOARD FUNCTIONS ********** */
@@ -261,6 +269,7 @@ function addWord(e) {
 //get squares, invoke event listeners for play/shuffle-button, add-button
 //calls event function clickSquares
 function main() {
+    // startTimer(1);
 
     console.log(allWords);
     for (let i = 0; i < 16; i++) {
@@ -280,7 +289,6 @@ function main() {
     clickSquares();
 
     //2 ways to add word: with button or with return key (13)
-    let body = document.querySelector('body');
 
     addBtn.addEventListener('click', addWord);
     document.addEventListener('keypress', e => {

@@ -37,15 +37,16 @@ function clearBoard() {
 }
 
 function clearGame() {
+    let parent, child, scoreStatus;
+
     updateAddBtnColor('lightblue');
-    let scoreStatus = document.getElementById('score');
+    scoreStatus = document.getElementById('score');
     score = 0;
     scoreStatus.textContent = score;
 
-    //remove all child elements from ul tag
-    // https://www.geeksforgeeks.org/remove-all-the-child-elements-of-a-dom-node-in-javascript/#:~:text=Remove%20all%20the%20child%20elements%20of%20a%20DOM%20node%20in,which%20produces%20the%20same%20output.
-    let parent = document.querySelector('ul');
-    let child = parent.firstElementChild;
+    parent = document.querySelector('ul');
+    child = parent.firstElementChild;
+
     while (child) {
         parent.removeChild(child);
         child = parent.firstElementChild;
@@ -58,10 +59,10 @@ function clearGame() {
 
 
 function printBoard() {
-    console.log(graph.list);
+    // console.log(graph.list);
     let board = generateLetters();
     let k = 0;
-    console.log('printing board');
+    // console.log('printing board');
     for (let i = 0; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
             squares[k].textContent = board[i][j];
@@ -77,7 +78,7 @@ function shuffle() {
         let yes = confirm("Are you sure you want to end the game?");
         if (!yes) return;
     }
-    console.log(globalWords);
+    // console.log(globalWords);
     globalWords = [];
 
     let board = generateLetters();
@@ -92,38 +93,28 @@ function shuffle() {
 
 /* ********** SQUARE FUNCTIONS ********** */
 
+
+
 //not called and not functional, TO-DO: implement correctly
-function allAdjacent() {
+function isAdjacent(currentSquare) {
 
     let squareNumber, edges;
-    let isAdj;
-    // console.log(graph.list.get(squareNumber));
-    // console.log("globalWordSquares" + globalWordSquares);
-    // console.log("NumberToSquare" + NumberToSquare);
-    // console.log("graph.list: " + graph.list);
+    let lastSquare = globalWordSquares[globalWordSquares.length - 1];
 
-    for (let j = 0; j < globalWordSquares.length; j++) {
-        isAdj = false;
-        currentSquare = globalWordSquares[j];
-        squareNumber = NumberToSquare.indexOf(currentSquare);
-        edges = graph.list.get(squareNumber);
 
-        for (let edge of edges) {
-            for (let i = 0; i < globalWordSquares.length; i++) {
+    squareNumber = NumberToSquare.indexOf(currentSquare);
+    edges = graph.list.get(squareNumber);
 
-                if (NumberToSquare.indexOf(globalWordSquares[i]) + 1 === edge) {
-                    isAdj = true;
-                    break;
-                    console.log(true);
-                }
-            }
-        }
-        if (isAdj === false) {
-            return false;
+    for (let edge of edges) {
+        if (NumberToSquare.indexOf(lastSquare) === edge) {
+            console.log(true)
+            return true;
         }
     }
-    return true
+    console.log(false)
+    return false;
 }
+
 
 function turnsGreen(e) {
     //add data change for globalWord when turns from green to blue
@@ -142,32 +133,38 @@ function updateAddBtnColor(color) {
 
 //event for clicking any square
 function clickSquares() {
+
     for (let i = 0; i < squares.length; i++) {
         console.log(squares[i]);
         squares[i].addEventListener('mousedown', function(e) {
+            let lastLetter = globalWordSquares[globalWordSquares.length - 1];
 
             console.log(squares[i]);
 
+            if (globalWord.length === 0 || isAdjacent(squares[i]) || squares[i] === lastLetter) {
+                if (turnsGreen(e)) {
+                    globalWord.push(squares[i].textContent);
+                    globalWordSquares.push(squares[i]);
+                } else {
+                    console.log(squares[i])
+                    console.log(lastLetter)
+                    if (squares[i] === lastLetter) {
+                        console.log('delete letter');
 
-            //check if adjacent
-            console.log(allAdjacent());
-            // if (globalWord.length > 0 && !isAdjacent()) {
-            //     console.log(isAdjacent(squares[i]))
-            // } else
-            if (turnsGreen(e)) {
-                globalWord.push(squares[i].textContent);
-                globalWordSquares.push(squares[i]);
-            } else {
-                console.log('delete letter');
-                //implement error checking, perhaps
-                let index = globalWordSquares.indexOf(squares[i]);
-                globalWordSquares.splice(index, 1);
-                globalWord.splice(index, 1);
-                console.log('index:' + String(index));
-                console.log(globalWord);
-                console.log(globalWordSquares);
+                        let index = globalWordSquares.indexOf(squares[i]);
+
+                        globalWordSquares.splice(index, 1);
+                        globalWord.splice(index, 1);
+                        console.log('index:' + String(index));
+                        console.log(globalWord);
+                        console.log(globalWordSquares);
+                    } else {
+                        turnsGreen(e);
+                    }
+                }
+
+
             }
-
             //change style.backgroundColor of addBtn
             if (globalWord.length > 2) updateAddBtnColor('lightgreen')
             else updateAddBtnColor('lightblue');

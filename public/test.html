@@ -1,41 +1,67 @@
-arbitrary html for running various experiments, not included in boggle.html
-
 <!DOCTYPE html>
 <html>
 
 <body>
-
-    <p id="myP">
-        Click the text! The mouseDown() function is triggered when the mouse button is pressed down over this paragraph, and sets the color of the text to red. The mouseUp() function is triggered when the mouse button is released, and sets the color of the text
-        to green.
-    </p>
-
+    <div id="timer">
+    </div>
 
 
 </body>
 <script>
-    function getAJAX() {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', '../assets/words.txt', true);
-        let wordList;
-        xhr.onload = function() {
-            if (this.status === 200) {
-                wordList = this.responseText.split('\n');
-                // console.log(wordList);
-                for (let word of wordList) {
-                    if (word === 'fish') {
-                        console.log("contains the word fish");
+    let endTime = new Date();
+    let endSecs = endTime.getSeconds();
+    let endMins = endTime.getMinutes();
+    let lastSec = endSecs;
+    let totalSecs = 0;
+    let totalMins = 0;
+    let intervalId;
 
-                    }
-                }
-            }
+    function getTime() {
+        let time = new Date();
+        let mins = time.getMinutes();
+        let secs = time.getSeconds();
+
+
+        if (totalMins === 0 && totalSecs === 0) {
+            alert("done");
+            done = true;
+            clearInterval(intervalId);
+            return;
         }
 
-        xhr.send();
+        if (secs != lastSec) {
+            if (totalSecs > 0)
+                totalSecs -= 1;
+            else {
+                totalSecs = 59;
+            }
 
+            lastSec = secs;
+        }
+
+        if (totalSecs === 59 && totalMins > 0) {
+            totalMins -= 1;
+        }
+
+        console.log(totalMins);
+        console.log(totalSecs);
+        if (totalSecs < 10) {
+            document.getElementById('timer').textContent = '0' + totalMins + ':0' + totalSecs;
+        } else {
+            document.getElementById('timer').textContent = '0' + totalMins + ':' + totalSecs;
+        }
     }
-    let body = document.querySelector('body');
-    body.addEventListener('click', getAJAX);
+
+    function startTimer(mins) {
+        let endTime = new Date();
+        endSecs = endTime.getSeconds();
+        endMins = endTime.getMinutes();
+        lastSec = endSecs;
+        totalMins = mins;
+        intervalId = setInterval(getTime, 1000);
+    }
+
+    startTimer(1);
 </script>
 
 </html>

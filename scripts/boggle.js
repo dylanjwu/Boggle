@@ -102,8 +102,6 @@ function shuffle() {
 /* ********** SQUARE FUNCTIONS ********** */
 
 
-
-//not called and not functional, TO-DO: implement correctly
 function isAdjacent(currentSquare) {
 
     let squareNumber, edges;

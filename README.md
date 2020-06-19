@@ -1,6 +1,6 @@
-# Pong single player game (in Vue framework)
+# Boggle Game (currently unfinished
 
-#### At the moment it looks like this:
+#### UI looks like this:
 
 <img src="./bogglesiteimg.png" width="550" height="450" />
 

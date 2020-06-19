@@ -1,4 +1,4 @@
-# Boggle Game (currently unfinished
+# Boggle Game
 
 #### UI looks like this:
 

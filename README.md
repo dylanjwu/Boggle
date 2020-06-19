@@ -1,4 +1,4 @@
-# Boggle Game
+# Boggle Web Game
 
 #### UI looks like this:
 

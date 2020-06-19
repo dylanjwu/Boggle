@@ -1,4 +1,28 @@
-Boggle web game in vanilla javascript, css, html-- as learning task.
-...and practice using git/github
+# Pong single player game (in Vue framework)
 
-need to check for adjacency!
+#### At the moment it looks like this:
+
+<img src="./bogglesiteimg.png" width="550" height="450" />
+
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

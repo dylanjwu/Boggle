@@ -12,58 +12,60 @@
 
 <body>
 
-    <header>
-        <div id="hd">
-            <h1> BOGGLE </h1>
-        </div>
-    </header>
-
-    <main>
-        <div class="main-wrapper">
-            <div class="game-wrapper">
-                <div class="board-wrapper">
-                    <div id="sq1"> </div>
-                    <div id="sq2"> </div>
-                    <div id="sq3"> </div>
-                    <div id="sq4"> </div>
-                    <div id="sq5"> </div>
-                    <div id="sq6"> </div>
-                    <div id="sq7"> </div>
-                    <div id="sq8"> </div>
-                    <div id="sq9"> </div>
-                    <div id="sq10"> </div>
-                    <div id="sq11"> </div>
-                    <div id="sq12"> </div>
-                    <div id="sq13"> </div>
-                    <div id="sq14"> </div>
-                    <div id="sq15"> </div>
-                    <div id="sq16"> </div>
-                </div>
-
-                <div class="buttons">
-                    <button id="shuffle-button">play</button>
-                    <button id="add-button"> add word </button>
-                </div>
-
+    <div class="whole">
+        <header>
+            <div id="hd">
+                <h1> BOGGLE </h1>
             </div>
+        </header>
 
-            <div class="side-bar">
-                <p id="timer"> </p>
-                <h3>score: <span id="score"> </span></h3>
+        <main>
+            <div class="main-wrapper">
+                <div class="game-wrapper">
+                    <div class="board-wrapper">
+                        <div id="sq1"> </div>
+                        <div id="sq2"> </div>
+                        <div id="sq3"> </div>
+                        <div id="sq4"> </div>
+                        <div id="sq5"> </div>
+                        <div id="sq6"> </div>
+                        <div id="sq7"> </div>
+                        <div id="sq8"> </div>
+                        <div id="sq9"> </div>
+                        <div id="sq10"> </div>
+                        <div id="sq11"> </div>
+                        <div id="sq12"> </div>
+                        <div id="sq13"> </div>
+                        <div id="sq14"> </div>
+                        <div id="sq15"> </div>
+                        <div id="sq16"> </div>
+                    </div>
 
-                <div class="listbox-area">
-                    <div class="left-area">
-                        <span id="ss_elem">
+                    <div class="buttons">
+                        <button id="shuffle-button">play</button>
+                        <button id="add-button"> add word </button>
+                    </div>
+
+                </div>
+
+                <div class="side-bar">
+                    <p id="timer"> </p>
+                    <h3>score: <span id="score"> </span></h3>
+
+                    <div class="listbox-area">
+                        <div class="left-area">
+                            <span id="ss_elem">
               <h5>words </h5>
             </span>
-                        <!-- code from: see file 'side-bar.js'  -->
-                        <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem"> </ul>
+                            <!-- code from: see file 'side-bar.js'  -->
+                            <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem"> </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-    </main>
+            </div>
+        </main>
+    </div>
     <div id="demo"> </div>
     <footer>
         <!-- <p> developed by Dylan Wu </p> -->
@@ -74,6 +76,6 @@
 <script type="text/javascript" src="../scripts/boardLogic.js"></script>
 <script type="text/javascript" src="../scripts/graph.js"></script>
 <script type="text/javascript" src="../scripts/boggle.js"></script>
-<!-- <script type="text/javascript" src="../scripts/clock.js"></script> -->
+<script type="text/javascript" src="../scripts/clock.js"></script>
 
 </html>

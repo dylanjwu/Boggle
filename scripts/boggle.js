@@ -87,11 +87,9 @@ function shuffle() {
 
     clearGame();
     printBoard();
-    // if (intervalId) {
-    //     clearInterval(intervalId);
-    //     startTimer(1);
-    // }
-    // startTimer(1);
+
+    countdownTimer(3);
+    resetTimer(3);
 
 }
 

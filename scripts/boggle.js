@@ -16,7 +16,6 @@ let squares = [];
 let NumberToSquare = [];
 // let allWords = [];
 
-
 //game
 let globalWords = [];
 let score = 0;
@@ -76,7 +75,7 @@ function printBoard() {
 //creates new board, prints, and clears previous data
 function shuffle() {
 
-    if (globalWords.length > 0) {
+    if (globalWords.length > 0 && !timesUp) {
         let yes = confirm("Are you sure you want to end the game?");
         if (!yes) return;
     }
@@ -88,8 +87,12 @@ function shuffle() {
     clearGame();
     printBoard();
 
-    countdownTimer(3);
-    resetTimer(3);
+    console.log(intervalId);
+    if (intervalId) {
+        resetTimer(3);
+    } else {
+        countdownTimer(3);
+    }
 
 }
 
@@ -143,6 +146,9 @@ function clickSquares() {
     for (let i = 0; i < squares.length; i++) {
         console.log(squares[i]);
         squares[i].addEventListener('mousedown', function(e) {
+
+            if (timesUp) return;
+
             let lastLetter = globalWordSquares[globalWordSquares.length - 1];
 
             console.log(squares[i]);
@@ -217,6 +223,8 @@ function turnRed() {
 
 //conditions for adding word, TO-DO: check if strWord is a word
 function addWord(e) {
+    if (timesUp) return;
+
     let strWord = globalWord.join('').toUpperCase();
     if (strWord.length <= 2 || !isWord(strWord.toLowerCase())) {
         turnRed();

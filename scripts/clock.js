@@ -54,16 +54,28 @@ function startTimer(mins) {
 */
 //https://stackoverflow.com/questions/48466361/how-to-reset-javascript-minute-countdown-timer/48466526
 let timer;
+let intervalId;
+let timesUp = false;
 
 function startTimer(duration, display) {
     timer = duration;
     let minutes, seconds;
-    setInterval(function() {
+    intervalId = setInterval(function() {
         minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
 
+        if (seconds === 0 && minutes === 0) {
+            console.log("zero");
+            display.textContent = "TIME'S UP!";
+            //display.style.color = 'red';
+            timesUp = true;
+            return;
+        }
+
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
+
+
 
         display.textContent = minutes + ":" + seconds;
 
@@ -74,6 +86,7 @@ function startTimer(duration, display) {
 }
 
 function resetTimer(mins) {
+    timesUp = false;
     timer = 60 * mins;
 }
 

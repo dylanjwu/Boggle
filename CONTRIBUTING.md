@@ -36,7 +36,7 @@ For your reference, the entire automated test suite can be found in the `tests` 
 Installation:
 * In order to use the test suite, you must have the python packages `pytest` and `pylint` installed on your machine.
 * To install these, run `pip install -e .[dev]`.
-* To install them individually, run `pip install pytest` and `pip install pylint`.
+* Or, to install them individually, run `pip install pytest` and `pip install pylint`.
 
 To test all of the detectors at once, execute `./run_tests.sh`. This script calls `pytest` and `pylint`.
 

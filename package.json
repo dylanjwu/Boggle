@@ -1,0 +1,26 @@
+{
+    "name": "Boggle",
+    "version": "1.0.0",
+    "description": "#### UI looks like this:",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha test/bootstrap.js --recursive test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dylanjwu/Boggle.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dylanjwu/Boggle/issues"
+    },
+    "homepage": "https://github.com/dylanjwu/Boggle#readme",
+    "dependencies": {
+        "chai": "^4.1.2",
+        "http-server": "^0.12.3",
+        "mocha": "^8.0.1",
+        "puppeteer": "^4.0.1"
+    }
+}

@@ -1,5 +1,5 @@
 <template>
-  <div id="square">
+  <div id="square" @click="onClick(current)">
     
   </div>
 </template>
@@ -23,11 +23,12 @@ export default {
         }
     },
     methods: {
-        onClick() {
+        onClick(current) {
             //emit event, send square to Game
+            this.$emit("click-square", current);
         },
         checkAdjToPrev() {
-
+            
         },
         turnGreen() {
 

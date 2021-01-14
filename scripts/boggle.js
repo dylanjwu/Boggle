@@ -1,5 +1,5 @@
 //Dependencies: scripts: boardLogic.js, graph.js
-//      usage: generateLetters() returns 2d array of random letters
+//      usage: generateRandomBoard() returns 2d array of random letters
 
 
 // (failed) dictionary API call for checking if word is real    
@@ -43,6 +43,7 @@ function clearGame() {
     score = 0;
     scoreStatus.textContent = score;
 
+    //delete all words in list (finds ul tag)
     parent = document.querySelector('ul');
     child = parent.firstElementChild;
 
@@ -56,10 +57,10 @@ function clearGame() {
 }
 
 
-
+//calls generateRandomBoard() from boardLogic.js file
 function printBoard() {
     // console.log(graph.list);
-    let board = generateLetters();
+    let board = generateRandomBoard();
     let k = 0;
     // console.log('printing board');
     for (let i = 0; i < 4; i++) {
@@ -79,14 +80,16 @@ function shuffle() {
         let yes = confirm("Are you sure you want to end the game?");
         if (!yes) return;
     }
-    // console.log(globalWords);
+
+    //delete words found
     globalWords = [];
 
-    let board = generateLetters();
+    let board = generateRandomBoard();
 
     clearGame();
     printBoard();
 
+    //reset timer or (if not already running) start timer 
     console.log(intervalId);
     if (intervalId) {
         resetTimer(3);
@@ -103,8 +106,7 @@ function shuffle() {
 /* ********** SQUARE FUNCTIONS ********** */
 
 
-
-//not called and not functional, TO-DO: implement correctly
+//involves all squares, checks adjacency using graph
 function isAdjacent(currentSquare) {
 
     let squareNumber, edges;
@@ -140,7 +142,8 @@ function updateAddBtnColor(color) {
     btn.style.backgroundColor = color;
 }
 
-//event for clicking any square
+//event listener for each square (looping through squares)
+//this is the most confusing, most difficult function
 function clickSquares() {
 
     for (let i = 0; i < squares.length; i++) {
@@ -153,9 +156,12 @@ function clickSquares() {
 
             console.log(squares[i]);
 
+            //if this is the first square to be highlighted
+            //or 
             if (globalWord.length === 0 || isAdjacent(squares[i]) || squares[i] === lastLetter) {
+                //if not blue, not already selected, then add letter and square
                 if (turnsGreen(e)) {
-                    globalWord.push(squares[i].textContent);
+                    globalWord.push(squares[i].textContent); //probably shouldn't access the textContent, just get board[i][j]
                     globalWordSquares.push(squares[i]);
                 } else {
                     console.log(squares[i])
@@ -171,6 +177,7 @@ function clickSquares() {
                         console.log(globalWord);
                         console.log(globalWordSquares);
                     } else {
+                        //why is this here? this seems unnecessary...
                         turnsGreen(e);
                     }
                 }
@@ -298,6 +305,7 @@ function main() {
 
     addBtn.addEventListener('click', addWord);
     document.addEventListener('keypress', e => {
+        //keyCode is deprecated
         if (e.keyCode === 13 && globalWord.length > 0) addWord();
     });
 
